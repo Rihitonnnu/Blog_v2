@@ -1,85 +1,107 @@
 # docker-laravel
 
 ## クローン
+
 ```
-$ git clone git@github.com:Rihitonnnu/docker-laravel.git
+git clone git@github.com:Rihitonnnu/Blog_v2.git
 ```
 
 ## プロジェクトセットアップ
+
 ### ビルドとコンテナ起動
+
 ```
-$ docker compose up -d
+docker compose up -d
 ```
 
-### envファイルコピー
+### env ファイルコピー
+
 ```
 $ cp .env.example .env
 ```
 
 ### コンテナに入る
+
 ```
-$ docker compose exec php bash
+docker compose exec blog bash
 ```
 
-### Composerインストール
+### Composer インストール
+
 ```
-$ composer install
+composer install
 ```
 
 ### 認証キー作成
+
 ```
-$ php artisan key:generate
+php artisan key:generate
 ```
 
 ### マイグレーション、シーディング
+
 ```
-$ php artisan migrate:fresh --seed
+php artisan migrate:fresh --seed
 ```
 
 ## テスト環境セットアップ
 
 ### キャッシュクリア
+
 ```
-$ php artisan config:clear
+php artisan config:clear
 ```
+
 ### 認証キー作成
+
 ```
-$ php artisan key:generate --env=testing
+php artisan key:generate --env=testing
 ```
-### dbコンテナに入る
+
+### db コンテナに入る
+
 ```
-$ docker compose exec db bash
+docker compose exec db-blog bash
 ```
-### MySQLにログイン(pwはroot)
+
+### MySQL にログイン(pw は root)
+
 ```
-$ mysql -u root -p
+mysql -u root -p
 ```
+
 ### テスト用のデータベース作成
+
 ```
 create database docker_laravel_test;
 ```
-### DBの権限設定(pwはdocker)
+
+### DB の権限設定(pw は docker)
+
 ```
 grant all on docker_laravel_test.* to docker;
 ```
+
 ### マイグレート
+
 ```
 php artisan migrate --env=testing
 ```
 
-## Viteセットアップ
-### npmインストール
+## Vite セットアップ
+
+### npm インストール
+
 ```
-$ npm install
+npm install
 ```
 
 ### ビルド
+
 ```
 #開発環境用
-$ npm run dev
+npm run dev
 
 #本番環境用
-$ npm run build
+npm run build
 ```
-
-
