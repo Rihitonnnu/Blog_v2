@@ -73,13 +73,13 @@ mysql -u root -p
 ### テスト用のデータベース作成
 
 ```
-create database docker_laravel_test;
+create database blog_test;
 ```
 
 ### DB の権限設定(pw は docker)
 
 ```
-grant all on docker_laravel_test.* to docker;
+grant all on blog_test.* to docker;
 ```
 
 ### マイグレート
