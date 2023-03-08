@@ -103,16 +103,20 @@ class ArticleController extends Controller
         return to_route('article.index');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
     public function getVisitorIndex()
     {
         return view('article.index', ['articles' => Article::with(['user', 'tags'])->orderBy('created_at', 'desc')->paginate(20)]);
     }
 
+    /**
+     * @param \App\Models\Article $article
+     * @return \Illuminate\Contracts\View\View
+     */
     public function getVisitorShow(Article $article)
     {
-        /** @var \App\Models\Article $article */
-        // $article = Article::with(['tags', 'user'])->where('id', $id)->first();
-
         return view('article.show', ['article' => $article::with(['tags', 'user'])->where('id', $article->id)->first()]);
     }
 }

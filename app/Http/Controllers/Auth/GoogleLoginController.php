@@ -9,11 +9,17 @@ use App\Models\User;
 
 class GoogleLoginController extends Controller
 {
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getGoogleAuth()
     {
         return Socialite::driver('google')->redirect();
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function authGoogleCallback()
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
