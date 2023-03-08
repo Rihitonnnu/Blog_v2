@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Article\CreateRequest;
@@ -24,7 +24,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return view('user.article.index', ['articles' => Article::where('user_id', Auth::id())->orderBy('created_at', 'desc')->with('tags')->get()]);
+        return view('article.index', [
+            'articles' => Article::where('user_id', Auth::id())->orderBy('created_at', 'desc')->with('tags')->get(),
+        ]);
     }
 
     /**
@@ -32,7 +34,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('user.article.create', ['tags' => Tag::all()]);
+        return view('article.create', ['tags' => Tag::all()]);
     }
 
     /**
@@ -52,7 +54,7 @@ class ArticleController extends Controller
 
         $this->article->storeArticle($userId, $title, $content, $tags);
 
-        return to_route('user.article.index');
+        return to_route('article.index');
     }
 
     /**
@@ -61,7 +63,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return view('user.article.show', ['article' => $article::where('id', $article->id)->with('tags')->first()]);
+        return view('article.show', ['article' => $article::where('id', $article->id)->with('tags')->first()]);
     }
 
     /**
@@ -70,7 +72,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('user.article.edit', ['article' => $article::where('id', $article->id)->with('tags')->first(), 'tags' => Tag::all()]);
+        return view('article.edit', ['article' => $article::where('id', $article->id)->with('tags')->first(), 'tags' => Tag::all()]);
     }
 
     /**
@@ -88,7 +90,7 @@ class ArticleController extends Controller
         $tags = $request->tags;
 
         $this->article->updateArticle($title, $content, $article->id, $tags);
-        return to_route('user.article.index');
+        return to_route('article.index');
     }
 
     /**
@@ -98,6 +100,23 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         $this->article->destroyArticle($article);
-        return to_route('user.article.index');
+        return to_route('article.index');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function getVisitorIndex()
+    {
+        return view('article.index', ['articles' => Article::with(['user', 'tags'])->orderBy('created_at', 'desc')->paginate(20)]);
+    }
+
+    /**
+     * @param \App\Models\Article $article
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function getVisitorShow(Article $article)
+    {
+        return view('article.show', ['article' => $article::with(['tags', 'user'])->where('id', $article->id)->first()]);
     }
 }

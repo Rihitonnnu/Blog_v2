@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Visitor\ArticleController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Auth\GoogleLoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ArticleController::class, 'index'])->name('visitor.article.index');
+Route::middleware('guest')->group(function () {
+    Route::get('/', [ArticleController::class, 'getVisitorIndex'])->name('visitor.article.index');
+    Route::get('visitor/article/{article}', [ArticleController::class, 'getVisitorShow'])->name('visitor.article.show');
+    Route::get('login', [GoogleLoginController::class, 'getGoogleAuth'])->name('login');
+    Route::get('logout', [GoogleLoginController::class, 'logout'])->name('logout');
+    Route::get('/auth/callback', [GoogleLoginController::class, 'authGoogleCallback']);
+});
 
-Route::get('/show/{article}', [ArticleController::class, 'show'])->name('visitor.article.show');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    Route::resource('article', ArticleController::class);
+});

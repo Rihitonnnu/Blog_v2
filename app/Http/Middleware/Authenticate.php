@@ -8,23 +8,21 @@ use Illuminate\Support\Facades\Route;
 class Authenticate extends Middleware
 {
     /**
-     *  @var string $userRoute
+     *  @var string $route
      */
-    private $userRoute = 'user.login';
-    /**
-     * @var string $adminRoute
-     */
-    private $adminRoute = 'admin.login';
+    private $route = 'login';
+
 
     protected function redirectTo($request)
     {
-        // 未認証の場合にログイン画面へリダイレクトさせる処理
-        if (!$request->expectsJson()) {
-            if (Route::is('admin.*')) {
-                return route($this->adminRoute);
-            } else {
-                return route($this->userRoute);
-            }
-        }
+        return route($this->route);
+        // // 未認証の場合にログイン画面へリダイレクトさせる処理
+        // if (!$request->expectsJson()) {
+        //     if (Route::is('admin.*')) {
+        //         return route($this->adminRoute);
+        //     } else {
+        //         return route($this->userRoute);
+        //     }
+        // }
     }
 }

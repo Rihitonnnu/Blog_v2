@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    <form action="{{ route('user.article.update', ['article' => $article->id]) }}" method="POST">
+                    <form action="{{ route('article.update', ['article' => $article->id]) }}" method="POST">
                         @csrf
                         @method('put')
                         <section class="text-gray-600 body-font relative w-full">
@@ -32,7 +32,8 @@
                                                 <div class="flex flex-wrap">
                                                     @foreach ($tags as $tag)
                                                         <x-tag-checkbox name="{{ $tag->name }}"
-                                                            id="{{ $tag->id }}" isChecked="{{ $article->tags->contains($tag->id) }}"/>
+                                                            id="{{ $tag->id }}"
+                                                            isChecked="{{ $article->tags->contains($tag->id) }}" />
                                                     @endforeach
                                                 </div>
                                             </div>
@@ -40,14 +41,17 @@
                                         <div class="p-2 w-full">
                                             <div class="relative">
                                                 <div class="flex">
-                                                    <label for="title" class="leading-7 text-sm text-gray-600">タイトル</label>
+                                                    <label for="title"
+                                                        class="leading-7 text-sm text-gray-600">タイトル</label>
                                                     @if ($errors->has('title'))
                                                         <ul>
-                                                            <li class="text-red-500 ml-4 mt-1 text-sm">{{ $errors->first('title') }}</li>
+                                                            <li class="text-red-500 ml-4 mt-1 text-sm">
+                                                                {{ $errors->first('title') }}</li>
                                                         </ul>
                                                     @endif
                                                 </div>
-                                                <x-text-input id="title" name="title" value="{{ old('title') ?? $article->title }}" />
+                                                <x-text-input id="title" name="title"
+                                                    value="{{ old('title') ?? $article->title }}" />
                                             </div>
                                         </div>
                                         <div class="p-2 w-full">
@@ -57,11 +61,13 @@
                                                         class="leading-7 text-sm text-gray-600">本文</label>
                                                     @if ($errors->has('content'))
                                                         <ul>
-                                                            <li class="text-red-500 ml-4 mt-1 text-sm">{{ $errors->first('content') }}</li>
+                                                            <li class="text-red-500 ml-4 mt-1 text-sm">
+                                                                {{ $errors->first('content') }}</li>
                                                         </ul>
                                                     @endif
                                                 </div>
-                                                <x-textarea id="content" name="content" content="{{ old('content') ?? $article->content }}" />
+                                                <x-textarea id="content" name="content"
+                                                    content="{{ old('content') ?? $article->content }}" />
                                             </div>
                                         </div>
                                         <div class="p-2 w-full">
