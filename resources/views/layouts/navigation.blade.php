@@ -34,6 +34,9 @@
                                 <x-nav-link :href="route('article.create')" :active="request()->routeIs('article.create')">
                                     記事を投稿する
                                 </x-nav-link>
+                                <x-nav-link :href="route('logout')" :active="request()->routeIs('logout')">
+                                    サインアウト
+                                </x-nav-link>
                             </div>
                         @endauth
                     </div>

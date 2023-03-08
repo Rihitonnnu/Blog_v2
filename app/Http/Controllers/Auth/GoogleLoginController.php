@@ -34,4 +34,13 @@ class GoogleLoginController extends Controller
         Auth::login($user, true);
         return to_route('dashboard');
     }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
+    }
 }
