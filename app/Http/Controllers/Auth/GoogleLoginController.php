@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
@@ -17,7 +17,6 @@ class GoogleLoginController extends Controller
     public function authGoogleCallback()
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
-        dd($googleUser);
         $user = User::firstOrCreate(
             ['email' => $googleUser->email],
             [

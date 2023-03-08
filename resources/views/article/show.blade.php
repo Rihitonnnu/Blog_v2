@@ -12,14 +12,12 @@
                     <section class="text-gray-600 body-font">
                         <div class="container mx-auto flex flex-col">
                             <div class="lg:w-full mx-auto">
-                                <div class="flex flex-col sm:flex-row mt-3">
-                                    <div class="w-full sm:pl-8 border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left">
-                                        <div class="mb-2">
-                                            <p>{{ $article->user->name }}</p>
-                                        </div>
+                                <div class="flex flex-col sm:flex-row mt-10">
+                                    <div
+                                        class="w-full sm:pl-8 border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left">
                                         <h1 class="font-bold text-3xl text-black">{{ $article->title }}</h1>
                                         <div class="flex mb-2 mt-1">
-                                            @foreach($article->tags as $tag)
+                                            @foreach ($article->tags as $tag)
                                                 <p class="mr-3 text-sm text-blue-600">#{{ $tag->name }}</p>
                                             @endforeach
                                         </div>
@@ -34,9 +32,22 @@
                         </div>
                     </section>
                     <div class="flex justify-center">
-                        <div class="m-2 w-32 mt-6">
-                            <x-anchor-button route="{{ route('admin.article.index') }}" title="一覧へ戻る" class="bg-indigo-500 hover:bg-indigo-600" />
-                        </div>
+                        @auth
+                            <div class="m-2 w-32 mt-6">
+                                <x-anchor-button route="{{ route('article.edit', ['article' => $article->id]) }}"
+                                    title="編集する" class="bg-orange-500 hover:bg-orange-600" />
+                            </div>
+                            <div class="m-2 w-32 mt-6">
+                                <x-anchor-button route="{{ route('article.index') }}" title="一覧へ戻る"
+                                    class="bg-indigo-500 hover:bg-indigo-600" />
+                            </div>
+                        @endauth
+                        @guest
+                            <div class="m-2 w-32 mt-6">
+                                <x-anchor-button route="{{ route('visitor.article.index') }}" title="一覧へ戻る"
+                                    class="bg-indigo-500 hover:bg-indigo-600" />
+                            </div>
+                        @endguest
                     </div>
                 </div>
             </div>
