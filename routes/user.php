@@ -3,6 +3,7 @@
 use App\Http\Controllers\User\ArticleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\User\Auth\GoogleLoginController;
 use App\Http\Controllers\User\Auth\RegisteredUserController;
 
 /*
@@ -21,7 +22,8 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::get('login', [GoogleLoginController::class, 'getGoogleAuth'])->name('login');
+    Route::get('/auth/callback', [GoogleLoginController::class, 'authGoogleCallback']);
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
