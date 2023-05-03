@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::middleware('guest')->group(function () {
-    Route::get('/welcome', function () {
-        return Inertia::render('Welcome');
-    });
-    Route::get('/', [ArticleController::class, 'getVisitorIndex'])->name('visitor.article.index');
+    Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('visitor/article/{article}', [ArticleController::class, 'getVisitorShow'])->name('visitor.article.show');
     Route::get('login', [GoogleLoginController::class, 'getGoogleAuth'])->name('login');
     Route::get('logout', [GoogleLoginController::class, 'logout'])->name('logout');

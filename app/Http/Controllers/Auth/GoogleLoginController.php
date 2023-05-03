@@ -28,11 +28,11 @@ class GoogleLoginController extends Controller
             [
                 'id' => $googleUser->id,
                 'name' => $googleUser->name,
-                'picture' => $googleUser->picture,
+                'picture' => $googleUser->avatar,
             ]
         );
         Auth::login($user, true);
-        return to_route('dashboard');
+        return to_route('articles.index');
     }
 
     /**

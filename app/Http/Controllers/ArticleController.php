@@ -7,7 +7,9 @@ use App\Http\Requests\User\Article\CreateRequest;
 use App\Http\Requests\User\Article\UpdateRequest;
 use App\Models\Article;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class ArticleController extends Controller
 {
@@ -16,7 +18,7 @@ class ArticleController extends Controller
     public function __construct(Article $article)
     {
         $this->article = $article;
-        $this->authorizeResource(Article::class, 'article');
+        // $this->authorizeResource(Article::class, 'article');
     }
 
     /**
@@ -24,8 +26,19 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return view('article.index', [
-            'articles' => Article::where('user_id', Auth::id())->orderBy('created_at', 'desc')->with('tags')->get(),
+        $user = null;
+        $isLogin = false;
+        if (Auth::check()) {
+            $articles = Article::where('user_id', Auth::id())->orderBy('created_at', 'desc')->with('tags')->paginate(20);
+            $user = User::find(Auth::id());
+            $isLogin = Auth::check();
+        } else {
+            $articles = Article::with(['user', 'tags'])->orderBy('created_at', 'desc')->paginate(20);
+        }
+        return Inertia::render('Articles/ArticleListPage', [
+            'articles' => $articles,
+            'user' => $user,
+            'isLogin' => $isLogin
         ]);
     }
 

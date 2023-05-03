@@ -16,4 +16,9 @@ export default defineConfig({
             host: "localhost",
         },
     },
+    resolve: {
+        alias: {
+            "@": "resources/ts",
+        },
+    },
 });

@@ -2,12 +2,9 @@ name: CI
 on:
   push:
     branches:
-      - "**"
-  pull_request:
-    branches:
-      - "**"
+      - '**'
 jobs:
-  blog-tests:
+  backend-tests:
     runs-on: ubuntu-latest
 
     services:
@@ -20,13 +17,12 @@ jobs:
           MYSQL_PASSWORD: password
         ports:
           - 3306:3306
-
     steps:
       - uses: actions/checkout@v2
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.1.9"
+          php-version: '8.1.9'
           extensions: mbstring, intl
           coverage: none
 
@@ -49,9 +45,23 @@ jobs:
         env:
           DB_HOST: 127.0.0.1
         run: vendor/bin/phpunit
-      - name: Execute php-cs-fixer
-        run: |
-          ./vendor/bin/php-cs-fixer fix --using-cache=no
       - name: Execute phpstan
         run: |
           ./vendor/bin/phpstan analyse
+
+  frontend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - name: NPM install
+        run: npm install
+      - name: Run eslint
+        run: npm run lint
+      - name: Run Vitest
+        # 環境変数CIをunsetしないとエラーになる(https://github.com/laravel/vite-plugin/blob/f599658c5f5fb8bef2841855e318d0ce27be615f/src/index.ts#L250)
+        # 推奨じゃないかもしれないが、一旦こうしておく
+        run: npm run build && unset CI && npm run test
