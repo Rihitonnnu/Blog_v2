@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '@/Components/Layouts/Layout';
+import { Layout } from '@/Components/Layout';
 
 type ArticleListPageProps = {
   articles: any;

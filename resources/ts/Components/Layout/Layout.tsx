@@ -1,6 +1,5 @@
 import React from 'react';
 import HeaderLayout from './HeaderLayout';
-import { AppShell, Navbar, Header } from '@mantine/core';
 
 type PageProps = {
   title: string;
